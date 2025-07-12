@@ -1,0 +1,19 @@
+services:
+  jdownloader:
+    image: jlesage/jdownloader-2
+    container_name: jdownloader
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+      - VNC_CLIPBOARD_AUTOSYNC=true
+    volumes:
+      - "./config:/config:rw"
+      - "./downloads:/output:rw"
+    expose:
+      - "5800"
+    networks:
+      - nginx-proxy-manager_default
+
+networks:
+  nginx-proxy-manager_default:
+    external: true

@@ -1,0 +1,17 @@
+#version: '3.8'
+
+services:
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    user: "root"
+    restart: always
+    ports:
+      - "6090:80"
+    volumes:
+      # Set /srv to the root directory on the host
+      - "/:/srv"
+      # Set /database to the current directory's database folder
+      - "./database:/database"
+      # Set /config to the current directory's config folder
+      - "./config:/config"

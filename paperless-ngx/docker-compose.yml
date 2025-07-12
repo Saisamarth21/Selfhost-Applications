@@ -1,0 +1,90 @@
+version: "3.8"
+
+networks:
+  paperless_net:
+    driver: bridge
+
+services:
+  # Redis broker
+  broker:
+    image: redis:7
+    restart: unless-stopped
+    networks:
+      - paperless_net
+    volumes:
+      - ./redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL database
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    networks:
+      - paperless_net
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paperless"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Apache Tika for OCR preprocessing
+  tika:
+    image: ghcr.io/paperless-ngx/tika:latest
+    restart: unless-stopped
+    networks:
+      - paperless_net
+
+  # Gotenberg for PDF conversion
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:7.10
+    restart: unless-stopped
+    networks:
+      - paperless_net
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+
+  # Main Paperless-ngx webserver
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      broker:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      tika:
+        condition: service_started
+      gotenberg:
+        condition: service_started
+    links:
+      - broker
+      - db
+    networks:
+      - paperless_net
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./data:/usr/src/paperless/data
+      - ./media:/usr/src/paperless/media
+      - ./consume:/usr/src/paperless/consume
+      - ./export:/usr/src/paperless/export
+    env_file: docker-compose.env
+    environment:
+      # must point at service names on our network:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_TIKA_ENABLED: "1"
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000

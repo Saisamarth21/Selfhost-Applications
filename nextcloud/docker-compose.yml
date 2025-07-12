@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    ports:
+      - "800:80"  # Maps host port 800 to container port 80
+    volumes:
+      - ./html:/var/www/html
+      - ./config:/var/www/html/config
+      - ./data:/var/www/html/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    restart: unless-stopped

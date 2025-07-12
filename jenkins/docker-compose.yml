@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts                # official LTS Jenkins image :contentReference[oaicite:0]{index=0}
+    container_name: jenkins
+    user: root                                 # run as root inside container :contentReference[oaicite:1]{index=1}
+    restart: always                            # always restart on failure or host reboot :contentReference[oaicite:2]{index=2}
+    ports:
+      - "8020:8080"                            # expose Jenkins UI on 8020
+      - "50000:50000"                          # expose Jenkins agent port
+    environment:
+      - DOCKER_GID=${DOCKER_GID}               # ensure Jenkins-in-container can use host Docker socket
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker

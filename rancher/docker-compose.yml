@@ -1,0 +1,9 @@
+#version: "2.4", Visit https
+services:
+    rancher:
+        restart: always
+        ports:
+            - 801:80
+            - 4431:443
+        privileged: true
+        image: rancher/rancher:latest
