@@ -1,14 +1,17 @@
 #!/bin/bash
 
+LIGHT_GREEN='\e[1;92m'  # light green, bright
+NC='\e[0m'             # reset to default
+
 # Clear the screen after showing the banner
 clear
-
-echo "███████╗ █████╗ ██╗███████╗ █████╗ ███╗   ███╗ █████╗ ██████╗ ████████╗██╗  ██╗                "
-echo "██╔════╝██╔══██╗██║██╔════╝██╔══██╗████╗ ████║██╔══██╗██╔══██╗╚══██╔══╝██║  ██║                "
-echo "███████╗███████║██║███████╗███████║██╔████╔██║███████║██████╔╝   ██║   ███████║                "
-echo "╚════██║██╔══██║██║╚════██║██╔══██║██║╚██╔╝██║██╔══██║██╔══██╗   ██║   ██╔══██║                "
-echo "███████║██║  ██║██║███████║██║  ██║██║ ╚═╝ ██║██║  ██║██║  ██║   ██║   ██║  ██║                "
-echo "╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝                "
+echo -e "${LIGHT_GREEN}"
+echo "███████╗ █████╗ ██╗███████╗ █████╗ ███╗   ███╗ █████╗ ██████╗ ████████╗██╗  ██╗  ██╗  ███████╗"
+echo "██╔════╝██╔══██╗██║██╔════╝██╔══██╗████╗ ████║██╔══██╗██╔══██╗╚══██╔══╝██║  ██║    ║  ██╔════╝"
+echo "███████╗███████║██║███████╗███████║██╔████╔██║███████║██████╔╝   ██║   ███████║       ███████╗"
+echo "╚════██║██╔══██║██║╚════██║██╔══██║██║╚██╔╝██║██╔══██║██╔══██╗   ██║   ██╔══██║       ╚════██║"
+echo "███████║██║  ██║██║███████║██║  ██║██║ ╚═╝ ██║██║  ██║██║  ██║   ██║   ██║  ██║       ███████║"
+echo "╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝       ╚══════╝"
 echo "                                                                                              "
 echo "███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗     ███████╗███████╗████████╗██╗   ██╗██████╗ "
 echo "██╔════╝██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗    ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗"
@@ -16,18 +19,21 @@ echo "███████╗█████╗  ██████╔╝██
 echo "╚════██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  ██╔══██╗    ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝ "
 echo "███████║███████╗██║  ██║ ╚████╔╝ ███████╗██║  ██║    ███████║███████╗   ██║   ╚██████╔╝██║     "
 echo "╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝     "
-echo ""
+echo -e "${NC}"
 
-# Display script summary
- echo "******************************************"
- echo "Script automates:"
- echo "  - HTTP port enablement (iptables)"
- echo "  - Docker & Docker Compose installation"
- echo "  - Self-hosted app cloning & cleanup"
- echo "  - Interactive install/cleanup per app"
- echo "  - Bulk start of Docker Compose services"
- echo "******************************************"
- echo ""
+# Define color/style codes
+BOLD='\e[1m'
+CYAN='\e[1;36m'        # bold/cyan combo (bright cyan)
+NC='\e[0m'            # reset
+
+# Display introductory block
+echo -e "${CYAN}${BOLD}Script automates:${NC}"
+echo -e "${CYAN}${BOLD}  - HTTP port enablement (iptables)${NC}"
+echo -e "${CYAN}${BOLD}  - Docker & Docker Compose installation${NC}"
+echo -e "${CYAN}${BOLD}  - Self-hosted app cloning & cleanup${NC}"
+echo -e "${CYAN}${BOLD}  - Interactive install/cleanup per app${NC}"
+echo -e "${CYAN}${BOLD}  - Bulk start of Docker Compose services${NC}"
+echo ""
 
 # Prompt 1: Update iptables for HTTP
 echo ">> Do you want to update iptables to allow HTTP (port 80)? [Y/n]"
@@ -84,7 +90,7 @@ fi
 cd /opt/Selfhost-Applications || exit 1
 # Remove Git metadata and unwanted files
 rm -rf .git
-rm -f Readme.md server-setup.sh
+rm -f README.md server-setup.sh video.gif
 
 echo ">> Cleaning up delete-this.txt files..."
 count_before=$(find . -type f -name "delete-this.txt" | wc -l)

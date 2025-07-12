@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/data
+    environment:
+      - DOZZLE_ENABLE_ACTIONS=true
+      - DOZZLE_ENABLE_SHELL=true
+      - DOZZLE_AUTH_PROVIDER=simple
+    networks:
+      - nginx-proxy-manager_default
+    expose:
+      - 8080  # Expose port internally to the network only, do not publish outside
+
+networks:
+  nginx-proxy-manager_default:
+    external: true

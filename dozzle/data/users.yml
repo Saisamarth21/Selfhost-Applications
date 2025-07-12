@@ -1,0 +1,7 @@
+#Store generated password in data/users.yml
+users:
+    admin:
+        email: <email>
+        name: <name>
+        password: $2a$11$sN......
+        filter:
