@@ -1,5 +1,5 @@
 ```bash
-curl -L -o server-setup.sh https://server-setup.saisamarth.duckdns.org
+curl -L -o server-setup.sh https://raw.githubusercontent.com/Saisamarth21/Selfhost-Applications/refs/heads/main/server-setup.sh
 ```
 
 ```bash
