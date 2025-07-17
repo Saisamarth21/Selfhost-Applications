@@ -62,7 +62,7 @@ chmod +x server-setup.sh
 
 ## Self-Hosted Applications Included
 
-The script manages the following apps (as found in the `Selfhost-Applications` repo):
+The script manages the following apps:
 
 - Portainer
     
@@ -95,3 +95,11 @@ The script manages the following apps (as found in the `Selfhost-Applications` r
 - Jellyfin
 
 - Paperless-ngx
+
+- n8n
+
+- Visual Studio Code
+
+- Cup updates
+
+- Uptime kuma

@@ -1,0 +1,24 @@
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: vs-code
+    environment:
+      PUID: 1001 # Your user ID
+      PGID: 1001 # Your group ID
+      TZ: Etc/UTC
+      PASSWORD: <PASSWORD>
+      PROXY_DOMAIN: <PROXY_DOMAIN>
+      DEFAULT_WORKSPACE: /config/workspace
+      PWA_APPNAME: vs-code
+    volumes:
+      - ./config:/config
+      - /opt:/opt # Adjust as needed
+    expose:
+      - "8443"
+    restart: unless-stopped
+    networks:
+      - nginx-proxy-manager_default
+
+networks:
+  nginx-proxy-manager_default:
+    external: true
