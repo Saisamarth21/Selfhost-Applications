@@ -103,3 +103,5 @@ The script manages the following apps:
 - Cup updates
 
 - Uptime kuma
+
+- Dockge
